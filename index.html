@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      button {
+        width: 70px !important;
+      }
+    </style>
+    <script>
+      const addAction = async () => {
+        var name = document.getElementById("name").value;
+        var height = document.getElementById("height").value;
+
+        var weight = document.getElementById("weight").value;
+
+        if (name == "" || height == "" || weight == "") {
+          alert("Please enter all values,and try");
+        } else {
+          //get result from backend node js server.
+          const response = await fetch(
+            "http://localhost:3000/bmi/calc/" +
+              name +
+              "/" +
+              height +
+              "/" +
+              weight +
+              ""
+          );
+          const myJson = await response.json();
+          console.log(myJson);
+          document.getElementById("result").value = myJson.result;
+          document.getElementById("status").innerHTML = myJson.status;
+          document.getElementById("msg").innerHTML = myJson.message;
+        }
+      };
+    </script>
+  </head>
+  <body>
+    <div
+      class="container"
+      style="
+        border: solid;
+        border-width: 1;
+        background-color: rgb(116, 177, 129);
+        width: 80%;
+        height: 500px;
+        display: flex;
+        justify-content: center;
+      "
+    >
+      <div class="inner-container">
+        <h2>BMI Calculator</h2>
+
+        Enter Name <input type="text" id="name" name="quantity" /> <br />
+        <br />
+        Height (m) <input type="number" id="height" name="height" /><br />
+        <br />
+        Weight (kg) <input type="number" id="weight" name="Weight" />
+        <br /><br />
+        <button onclick="addAction();">Check</button><br />
+        <br />
+        BMI Result
+        <input type="number" id="result" name="quantity" readonly /><br /><br />
+        status
+        <div id="status"></div>
+        <br />
+        message
+        <div id="msg"></div>
+        <br />
+        <br />
+      </div>
+    </div>
+  </body>
+</html>
